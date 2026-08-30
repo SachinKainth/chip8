@@ -247,9 +247,9 @@ func (i *Instruction) subtractFromVx() {
 }
 
 func (i *Instruction) shiftRight() {
-	overflow := i.vm.registers[i.vy] & 0b00000001
-	i.vm.registers[15] = overflow
-	i.vm.registers[i.vx] = i.vm.registers[i.vy] >> 1
+	vyRegister := i.vm.registers[i.vy]
+	i.vm.registers[i.vx] = vyRegister >> 1
+	i.vm.registers[15] = vyRegister & 0b00000001
 }
 
 func (i *Instruction) shiftRightNew() {
@@ -273,9 +273,9 @@ func (i *Instruction) subtractFromVy() {
 }
 
 func (i *Instruction) shiftLeft() {
-	overflow := i.vm.registers[i.vy] & 0b10000000
-	i.vm.registers[15] = overflow >> 7
-	i.vm.registers[i.vx] = i.vm.registers[i.vy] << 1
+	vyRegister := i.vm.registers[i.vy]
+	i.vm.registers[i.vx] = vyRegister << 1
+	i.vm.registers[15] = (vyRegister & 0b10000000) >> 7
 }
 
 func (i *Instruction) shiftLeftNew() {

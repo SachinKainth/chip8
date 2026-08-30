@@ -313,6 +313,15 @@ func (suite *Chip8TestSuite) TestVXShiftRightWithOverflow() {
 	suite.Equal(byte(1), suite.vm.registers[15])
 }
 
+func (suite *Chip8TestSuite) TestVXShiftRightWithCarryWhenVFIsVY() {
+	suite.asm.SetRegister(15, 61)
+	suite.asm.ShiftRight(15, 15)
+
+	suite.executeInstructions()
+
+	suite.Equal(byte(1), suite.vm.registers[15])
+}
+
 func (suite *Chip8TestSuite) TestVXShiftLeft() {
 	suite.asm.SetRegister(1, 0b01111110)
 	suite.asm.ShiftLeft(0, 1)
@@ -332,6 +341,15 @@ func (suite *Chip8TestSuite) TestVXShiftLeftWithOverflow() {
 
 	suite.Equal(byte(0b11111100), suite.vm.registers[1])
 	suite.Equal(byte(0b11111000), suite.vm.registers[0])
+	suite.Equal(byte(1), suite.vm.registers[15])
+}
+
+func (suite *Chip8TestSuite) TestVXShiftLeftWithCarryWhenVFIsVY() {
+	suite.asm.SetRegister(15, 188)
+	suite.asm.ShiftLeft(15, 15)
+
+	suite.executeInstructions()
+
 	suite.Equal(byte(1), suite.vm.registers[15])
 }
 
